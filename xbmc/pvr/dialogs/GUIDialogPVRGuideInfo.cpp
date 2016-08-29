@@ -274,7 +274,7 @@ void CGUIDialogPVRGuideInfo::OnInitWindow()
     /* already has a timer. hide the add timer button */
     SET_CONTROL_HIDDEN(CONTROL_BTN_ADD_TIMER);
   }
-  else if (m_progItem->EndAsLocalTime() > CDateTime::GetCurrentDateTime())
+  else if (m_progItem->IsRecordable())
   {
     SET_CONTROL_LABEL(CONTROL_BTN_RECORD, 264);     /* Record */
     bHideRecord = false;
