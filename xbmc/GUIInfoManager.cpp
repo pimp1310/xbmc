@@ -6066,6 +6066,10 @@ std::string CGUIInfoManager::GetLabel(int info, int contextWindow, std::string *
           if (!g_application.m_pPlayer->GetRadioText(0).empty())
             return g_application.m_pPlayer->GetRadioText(0);
         }
+        if (m_currentFile->HasEPGInfoTag())
+        {
+          return m_currentFile->GetEPGInfoTag()->Title();
+        }
         if (m_currentFile->HasPVRChannelInfoTag())
         {
           CEpgInfoTagPtr tag(m_currentFile->GetPVRChannelInfoTag()->GetEPGNow());
@@ -7340,7 +7344,9 @@ bool CGUIInfoManager::GetBool(int condition1, int contextWindow, const CGUIListI
       bReturn = !CSettings::GetInstance().GetString(CSettings::SETTING_MUSICPLAYER_VISUALISATION).empty();
     break;
     case VIDEOPLAYER_HAS_EPG:
-      if (m_currentFile->HasPVRChannelInfoTag())
+      if (m_currentFile->HasEPGInfoTag())
+        bReturn = true;
+      else if (m_currentFile->HasPVRChannelInfoTag())
         bReturn = (m_currentFile->GetPVRChannelInfoTag()->GetEPGNow().get() != NULL);
     break;
     case VIDEOPLAYER_IS_STEREOSCOPIC:
@@ -8795,7 +8801,7 @@ std::string CGUIInfoManager::GetVideoLabel(int item)
     {
     /* Now playing infos */
     case VIDEOPLAYER_TITLE:
-      epgTag = tag->GetEPGNow();
+      epgTag = m_currentFile->HasEPGInfoTag() ? m_currentFile->GetEPGInfoTag() : tag->GetEPGNow();
       return epgTag ?
           epgTag->Title() :
           CSettings::GetInstance().GetBool(CSettings::SETTING_EPG_HIDENOINFOAVAILABLE) ?

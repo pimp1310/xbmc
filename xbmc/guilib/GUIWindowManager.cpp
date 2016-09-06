@@ -1395,7 +1395,7 @@ int CGUIWindowManager::GetActiveWindowID()
     if (g_application.m_pPlayer->IsInMenu())
       iWin = WINDOW_VIDEO_MENU;
     // check for LiveTV and switch to it's virtual window
-    else if (g_PVRManager.IsStarted() && g_application.CurrentFileItem().HasPVRChannelInfoTag())
+    else if (g_PVRManager.IsStarted() && g_application.CurrentFileItem().HasPVRChannelInfoTag() && !g_application.CurrentFileItem().HasEPGInfoTag())
       iWin = WINDOW_FULLSCREEN_LIVETV;
     // special casing for numeric seek
     else if (CSeekHandler::GetInstance().HasTimeCode())
