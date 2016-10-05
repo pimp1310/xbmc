@@ -125,6 +125,10 @@ CFileItem::CFileItem(const CEpgInfoTagPtr& tag)
   Initialize();
 
   m_bIsFolder = false;
+  if (tag->HasPVRChannel())
+  {
+    m_pvrChannelInfoTag = tag->ChannelTag();
+  }
   m_epgInfoTag = tag;
   m_strPath = tag->Path();
   SetLabel(tag->Title());
